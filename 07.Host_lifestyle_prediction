@@ -9,4 +9,6 @@ iphop predict --fa_file "$VOTU_FASTA" --db_dir "$IPHOP_DB" \
  
 # ---------------- Lifestyle prediction (BACPHLIP) ----------------
 bacphlip -i "$VOTU_FASTA" --multi_fasta
- 
+
+# ---------------- Lifestyle prediction (PhaTYP) ----------------
+python PhaTYP.py --out "$PHATYP_OUT/phatyp_annotation_output.csv" --midfolder "$PHATYP_OUT"
