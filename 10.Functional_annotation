@@ -5,6 +5,7 @@ DIAMOND_DB="sarg_plus.dmnd"          # swap for VFDB / QSDB / BacMet / mobileOG 
 DIAMOND_OUT="ARG_hits.tsv"
 EGGNOG_DB_DIR="eggnog_db"
 EGGNOG_OUT="eggnog_output"
+RGI_OUT="rgi_output"
  
 # ---------------- Gene prediction (prodigal-gv) ----------------
 prodigal-gv -i "$VOTU_FASTA" -a "$VOTU_PROTEINS" -p meta
@@ -17,3 +18,6 @@ diamond blastp --query "$VOTU_PROTEINS" --db "$DIAMOND_DB" --out "$DIAMOND_OUT" 
 # ---------------- Functional annotation (eggNOG-mapper) ----------------
 emapper.py -i "$VOTU_PROTEINS" --itype proteins -m diamond --sensmode more-sensitive \
     --output_dir "$EGGNOG_OUT" --cpu $THREADS --data_dir "$EGGNOG_DB_DIR" --override
+
+# ---------------- Functional annotation (RGI / CARD) ----------------
+rgi main -i "$VOTU_PROTEINS" -o "$RGI_OUT" -t protein -n $THREADS
