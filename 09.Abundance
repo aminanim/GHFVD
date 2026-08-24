@@ -1,0 +1,8 @@
+THREADS=16
+BAM_FILE="mapped.bam"
+OUTPUT="votu_abundances.tsv"
+ 
+# ---------------- Abundance estimation (CoverM) ----------------
+coverm contig --bam-files "$BAM_FILE" --methods tpm covered_fraction \
+    --min-covered-fraction 75 --min-read-percent-identity 90 --min-read-aligned-percent 75 \
+    --threads $THREADS --output-file "$OUTPUT"
