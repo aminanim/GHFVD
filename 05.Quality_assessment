@@ -1,0 +1,7 @@
+THREADS=16
+INPUT_VIRAL_CONTIGS="viral_contigs.fna"
+CHECKV_DB="checkv_db"
+OUTPUT_DIR="checkv_output"
+ 
+# ---------------- Viral quality assessment (CheckV) ----------------
+checkv end_to_end "$INPUT_VIRAL_CONTIGS" "$OUTPUT_DIR" -t $THREADS -d "$CHECKV_DB"
