@@ -1,0 +1,9 @@
+THREADS=16
+RAW_READS="reads.fastq.gz"
+HOST_REF="host_genomes.fna.gz"
+OUTPUT="without_host.fastq.gz"
+ 
+# ---------------- Host read removal ----------------
+minimap2 -t $THREADS -ax map-ont "$HOST_REF" "$RAW_READS" > aligned.sam
+samtools view --threads $THREADS -b -f 4 aligned.sam > unmapped.bam
+samtools fastq --threads $THREADS unmapped.bam | gzip > "$OUTPUT"
