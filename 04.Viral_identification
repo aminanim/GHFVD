@@ -1,0 +1,13 @@
+THREADS=16
+INPUT_CONTIGS="derep_output/derep_rep_seq.fasta"
+GENOMAD_DB="genomad_db"
+GENOMAD_OUT="genomad_output"
+VIBRANT_OUT="vibrant_output"
+MIN_CONTIG_LEN=1500
+ 
+# ---------------- Viral identification ----------------
+genomad end-to-end "$INPUT_CONTIGS" "$GENOMAD_OUT" "$GENOMAD_DB" \
+    --min-score 0.7 --cleanup --threads $THREADS
+ 
+VIBRANT_run.py -i "$INPUT_CONTIGS" -folder "$VIBRANT_OUT" \
+    -l $MIN_CONTIG_LEN -t $THREADS -f nucl
