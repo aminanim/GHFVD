@@ -1,0 +1,9 @@
+THREADS=16
+INPUT_READS="without_host.fastq.gz"
+OUTPUT_DIR="assembly_output"
+ 
+# ---------------- Metagenomic assembly (metaFlye) ----------------
+flye --nano-raw "$INPUT_READS" \
+     --out-dir "$OUTPUT_DIR" \
+     --meta \
+     -t $THREADS
