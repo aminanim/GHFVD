@@ -1,0 +1,6 @@
+THREADS=16
+VOTU_FASTA="votu_representatives.fna"
+OUTPUT_DIR="viptree_output"
+ 
+# ---------------- Phylogenetic tree (ViPTreeGen) ----------------
+ViPTreeGen "$VOTU_FASTA" "$OUTPUT_DIR" --ncpus $THREADS
