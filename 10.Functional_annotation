@@ -1,0 +1,19 @@
+THREADS=16
+VOTU_FASTA="votu_representatives.fna"
+VOTU_PROTEINS="votu_proteins.faa"
+DIAMOND_DB="sarg_plus.dmnd"          # swap for VFDB / QSDB / BacMet / mobileOG as needed
+DIAMOND_OUT="ARG_hits.tsv"
+EGGNOG_DB_DIR="eggnog_db"
+EGGNOG_OUT="eggnog_output"
+ 
+# ---------------- Gene prediction (prodigal-gv) ----------------
+prodigal-gv -i "$VOTU_FASTA" -a "$VOTU_PROTEINS" -p meta
+ 
+# ---------------- Functional annotation (DIAMOND) ----------------
+diamond blastp --query "$VOTU_PROTEINS" --db "$DIAMOND_DB" --out "$DIAMOND_OUT" \
+    --outfmt 6 qseqid sseqid pident length mismatch gapopen qstart qend sstart send evalue bitscore stitle \
+    --evalue 1e-5 --id 80 --query-cover 85 --threads $THREADS --more-sensitive
+ 
+# ---------------- Functional annotation (eggNOG-mapper) ----------------
+emapper.py -i "$VOTU_PROTEINS" --itype proteins -m diamond --sensmode more-sensitive \
+    --output_dir "$EGGNOG_OUT" --cpu $THREADS --data_dir "$EGGNOG_DB_DIR" --override
