@@ -1,0 +1,21 @@
+THREADS=16
+INPUT_READS="without_host.fastq.gz"
+KRAKEN_DB="kraken_db"
+KRAKEN_REPORT="kraken_report.txt"
+KRAKEN_OUTPUT="kraken_output.txt"
+BRACKEN_PHYLUM_OUT="bracken_phylum.txt"
+BRACKEN_CLASS_OUT="bracken_class.txt"
+BRACKEN_FAMILY_OUT="bracken_family.txt"
+READ_LEN=150
+ 
+# ---------------- Taxonomic profiling (Kraken2) ----------------
+kraken2 --db "$KRAKEN_DB" --threads $THREADS --report "$KRAKEN_REPORT" \
+    --output "$KRAKEN_OUTPUT" --use-names --confidence 0.1 "$INPUT_READS"
+ 
+# ---------------- Abundance re-estimation (Bracken) ----------------
+# Phylum level
+bracken -d "$KRAKEN_DB" -i "$KRAKEN_REPORT" -o "$BRACKEN_PHYLUM_OUT" -r $READ_LEN -l P
+# Class level
+bracken -d "$KRAKEN_DB" -i "$KRAKEN_REPORT" -o "$BRACKEN_CLASS_OUT" -r $READ_LEN -l C
+# Family level
+bracken -d "$KRAKEN_DB" -i "$KRAKEN_REPORT" -o "$BRACKEN_FAMILY_OUT" -r $READ_LEN -l F
