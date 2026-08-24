@@ -1,0 +1,12 @@
+THREADS=16
+VOTU_FASTA="votu_representatives.fna"
+IPHOP_DB="iphop_db"
+IPHOP_OUT="iphop_output"
+ 
+# ---------------- Host prediction (iPHoP) ----------------
+iphop predict --fa_file "$VOTU_FASTA" --db_dir "$IPHOP_DB" \
+    --out_dir "$IPHOP_OUT" --num_threads $THREADS
+ 
+# ---------------- Lifestyle prediction (BACPHLIP) ----------------
+bacphlip -i "$VOTU_FASTA" --multi_fasta
+ 
