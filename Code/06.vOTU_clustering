@@ -1,15 +1,12 @@
 THREADS=16
-INPUT_CONTIGS="checkv_output/checkv_passed.fna"
-ANI=0.95
-QCOV=0.85
-VOTU_FASTA="votu_representatives.fna"
- 
-# ---------------- vOTU clustering (vClust) ----------------
-vclust prefilter -i "$INPUT_CONTIGS" -o filter.txt --threads $THREADS
- 
-vclust align -i "$INPUT_CONTIGS" -o ani.tsv --filter filter.txt --threads $THREADS
- 
-vclust cluster -i ani.tsv -o clusters.tsv --ids ani.ids.tsv \
-    --metric ani --ani $ANI --qcov $QCOV
- 
-vclust info -i "$INPUT_CONTIGS" -c clusters.tsv -o "$VOTU_FASTA" --representatives
+INPUT_VOTUS="votu_representatives.fna"
+TANI=0.70
+GENUS_CLUSTERS="genus_clusters.tsv"
+
+# ---------------- Genus-level clustering (vClust) ----------------
+vclust prefilter -i "$INPUT_VOTUS" -o genus_filter.txt --threads $THREADS
+
+vclust align -i "$INPUT_VOTUS" -o genus_ani.tsv --filter genus_filter.txt --threads $THREADS
+
+vclust cluster -i genus_ani.tsv -o "$GENUS_CLUSTERS" --ids genus_ani.ids.tsv \
+    --algorithm complete --metric tani --tani $TANI
